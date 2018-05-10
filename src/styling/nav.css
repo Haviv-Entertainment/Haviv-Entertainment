@@ -1,0 +1,17 @@
+@font-face {
+    font-family: Aileron-Regular;
+    src: url("../fonts/Aileron-Regular.otf") format("opentype");
+}
+
+#navContainer {
+    font-family: 'Aileron-Regular';
+    /* font-style: italic; */
+    list-style-type: none;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    color: #225994;
+    background-color: #cbcbcb;
+    padding: 0.5em 9em;
+}

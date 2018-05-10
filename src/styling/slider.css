@@ -1,0 +1,17 @@
+.slider {
+    margin: auto;
+    text-align: center;
+    /* height: 30em; */
+}
+
+.slide {
+    object-fit: contain;
+}
+
+.slider-content {
+    background-size: contain;
+}
+
+polygon {
+    fill: rgba(255, 255, 255, 0.65)
+}
