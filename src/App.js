@@ -3,15 +3,17 @@ import Nav from './components/Nav';
 import ImgSlider from './components/Slider';
 // import Home from './components/Home';
 import './styling/app.css';
-import Logo from './images/haviv2.png';
+import Logo from './images/haviv2Optimized.png';
 
 const App = () => (
   <div id="appContainer">
-    <img
-      className="logo"
-      src={Logo}
-      alt="Haviv Entertainment Logo"
-    />
+    <div className="logo-container">
+      <img
+        className="logo"
+        src={Logo}
+        alt="Haviv Entertainment Logo"
+      />
+    </div>
     <Nav />
     <ImgSlider />
   </div>

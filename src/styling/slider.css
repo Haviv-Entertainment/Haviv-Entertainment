@@ -1,15 +1,7 @@
 .slider {
     margin: auto;
     text-align: center;
-    /* height: 30em; */
-}
-
-.slide {
-    object-fit: contain;
-}
-
-.slider-content {
-    background-size: contain;
+    height: 30.8em;
 }
 
 polygon {
