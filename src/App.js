@@ -1,21 +1,61 @@
 import React from 'react';
-import Nav from './components/Nav';
-import ImgSlider from './components/Slider';
-// import Home from './components/Home';
+import { Route, Switch } from 'react-router-dom';
+// import Favicon from 'react-favicon';
+import Home from './components/Home';
+import AboutUs from './components/AboutUs';
+import Packages from './components/Packages';
+import Weddings from './components/Weddings';
+import Ceremony from './components/Ceremony';
+import Events from './components/Events';
+import Acapella from './components/Acapella';
+import Contact from './components/Contact';
 import './styling/app.css';
-import Logo from './images/haviv2Optimized.png';
 
 const App = () => (
-  <div id="appContainer">
-    <div className="logo-container">
-      <img
-        className="logo"
-        src={Logo}
-        alt="Haviv Entertainment Logo"
+  <div>
+    {/* <Favicon url="https://i.imgur.com/oCRyRm3.png" /> */}
+    <Switch>
+      <Route
+        exact
+        path="/"
+        component={Home}
       />
-    </div>
-    <Nav />
-    <ImgSlider />
+      <Route
+        exact
+        path="/home"
+        component={Home}
+      />
+      <Route
+        exact
+        path="/about"
+        component={AboutUs}
+      />
+      <Route
+        exact
+        path="/packages"
+        component={Packages}
+      />
+      <Route
+        path="/weddings"
+        component={Weddings}
+      />
+      <Route
+        path="/ceremony"
+        component={Ceremony}
+      />
+      <Route
+        path="/events"
+        component={Events}
+      />
+      <Route
+        path="/acapella"
+        component={Acapella}
+      />
+      <Route
+        path="/contact"
+        component={Contact}
+      />
+    </Switch>
   </div>
 );
 

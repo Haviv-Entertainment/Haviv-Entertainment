@@ -1,0 +1,24 @@
+.ss-indicators {
+    position: relative;
+    top: -40px;
+    padding: 0;
+    text-align: center;
+    height: 0;
+  }
+  .ss-indicators > div {
+    display: inline-block;
+    cursor: pointer;
+  }
+  .ss-indicators > div > span {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border: 1px solid white;
+    border-radius: 50%;
+    margin: 0 5px;
+    padding: 0;
+    background: transparent;
+  }
+  .ss-indicators > div > span.ss-active {
+    background-color: white;
+  }

@@ -14,4 +14,20 @@
     color: #225994;
     background-color: #cbcbcb;
     padding: 0.5em 9em;
+    margin-bottom: 0;
+}
+
+.navItem:hover {
+    transform: scale(1.2);
+    transition: transform .25s ease;
+}
+
+.linkStyle {
+    color: #225994;
+}
+
+.linkStyle:hover,
+.linkStyle:active {
+    text-decoration: none;
+    color: #133b7c;
 }

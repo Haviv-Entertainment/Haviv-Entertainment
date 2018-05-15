@@ -2,6 +2,15 @@
     margin: auto;
     text-align: center;
     height: 30.8em;
+    width: 100%;
+}
+
+.sliderImageStyle {
+    width: 100%;
+    position: absolute;
+   left: 50%;
+   top: 50%;
+   -webkit-transform: translateY(-49%) translateX(-50%);
 }
 
 polygon {

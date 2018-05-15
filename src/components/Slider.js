@@ -1,5 +1,4 @@
-import React, {Component} from 'react';
-import $ from 'jquery';
+import React from 'react';
 import Slider from 'react-animated-slider';
 import 'react-animated-slider/build/horizontal.css';
 import ImageOne from '../images/slideshowImages/havivEntertainmentCrowd.jpg';
@@ -8,6 +7,7 @@ import ImageThree from '../images/slideshowImages/havivEntertainmentCrowd2.jpg';
 import ImageFour from '../images/slideshowImages/brideGroomChairHavivEntertainment.jpg';
 import ImageFive from '../images/slideshowImages/havivEntertainmentCrowd3-1310.jpg';
 import ImageSix from '../images/slideshowImages/MichaelHavivDJ-v2.jpg';
+import Indicators from './Indicators';
 import '../styling/slider.css';
 
 const slideImages = [
@@ -34,7 +34,7 @@ const slideImages = [
 const ImgSlider = () => (
   <Slider
     onSlideChange={
-      this.slideOneAdjust
+      event => console.log(event.slideIndex)
     }
     className="slider"
     // autoplay="4000"
@@ -44,12 +44,15 @@ const ImgSlider = () => (
         <div
           key={index}
           className="slider-content"
-          style={{
-            background: `url('${item.image}') no-repeat center center`,
-          }}
-        />
+          // style={{
+          //   background: `url('${item.image}') no-repeat center center`,
+          // }}
+        >
+          <img className="sliderImageStyle" src={item.image} alt="Haviv Entertainment Images" />
+        </div>
       ))
     }
+    <Indicators />
   </Slider>
 );
 
