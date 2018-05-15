@@ -64,7 +64,8 @@ const Nav = () => {
         </li>
         <li className="navItem">
           <Link
-            to="/concerts"
+            to="https://www.shlomohaviv.com/"
+            target="_blank"
             className="linkStyle"
           >
             Concerts
