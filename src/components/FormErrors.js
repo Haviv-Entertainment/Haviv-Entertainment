@@ -1,15 +1,15 @@
 import React from 'react';
-import "../css/formerrors.css";
+import '../styling/formerrors.css';
 
 
-export const FormErrors = ({formErrors}) => {
-  <div className='formErrors'>
+export const FormErrors = ({formErrors}) => (
+  <div className="formErrors">
     {Object.keys(formErrors).map((fieldName, i) => {
-      if(formErrors[fieldName].length > 0){
+      if (formErrors[fieldName].length > 0) {
         return (
-            <p
-              key={i}
-              className="formErrorStyle"
+          <p
+            key={i}
+            className="formErrorStyle"
           >
             {fieldName} {formErrors[fieldName]}
           </p>
@@ -19,4 +19,4 @@ export const FormErrors = ({formErrors}) => {
       }
     })}
   </div>
-}
+);

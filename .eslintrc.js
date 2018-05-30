@@ -5,6 +5,6 @@ module.exports = {
         "jsx-a11y/anchor-is-valid": [ "error", {
             "components": [ "Link" ],
             "specialLink": [ "to" ],
-        }]
+        }],
     },
 };
