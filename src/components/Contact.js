@@ -38,7 +38,7 @@ class Contact extends Component {
         barBatMitzvah: false,
         corporate: false,
         other: false,
-      }
+      },
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -108,29 +108,31 @@ class Contact extends Component {
     if (event.target.checked === true) {
       this.setState({
         selectedOption: event.target.value,
-      }, () => console.log(`Selected Option ${this.state.selectedOption}`));
+      }, () => console.log(`Selected Option ${this.state.selectedOption}`),
+      this.hiddenEventSections(event),
+      );
     }
   }
 
-  hiddenEventSections() {
-    if (this.state.selectedOption === 'wedding') {
+  hiddenEventSections(event) {
+    if (event.target.value === 'wedding') {
       this.setState({
-        radioButtonSections: { wedding: true }
-      }, () => console.log(`Wedding Section ${this.state.radioButtonSections.wedding}`))
+        radioButtonSections: { wedding: true },
+      }, () => console.log(`Wedding Section ${this.state.radioButtonSections.wedding}`));
     }
-    if (this.state.selectedOption === 'barBatMitzvah') {
+    if (event.target.value === 'barBatMitzvah') {
       this.setState({
-        radioButtonSections: { barBatMitzvah: true }
-      }, () => console.log(`Bar Bat Mitzvah Section ${this.state.radioButtonSections.barBatMitzvah}`))
+        radioButtonSections: { barBatMitzvah: true },
+      }, () => console.log(`Bar Bat Mitzvah Section ${this.state.radioButtonSections.barBatMitzvah}`));
     }
-    if (this.state.selectedOption === 'corporate') {
+    if (event.target.value === 'corporate') {
       this.setState({
-        radioButtonSections: {corporate: true }
-      }, () => console.log(`Corporate Section ${this.state.radioButtonSections.corporate}`))
-    } else if (this.state.selectedOption === 'other') {
+        radioButtonSections: { corporate: true },
+      }, () => console.log(`Corporate Section ${this.state.radioButtonSections.corporate}`));
+    } else if (event.target.value === 'other') {
       this.setState({
-        radioButtonSections: { other: true }
-      }, () => console.log(`Other Section ${this.state.radioButtonSections.barBatMitzvah}`))
+        radioButtonSections: { other: true },
+      }, () => console.log(`Other Section ${this.state.radioButtonSections.barBatMitzvah}`));
     }
   }
 
@@ -172,8 +174,8 @@ class Contact extends Component {
         fieldValidationErrors.email = emailValid ? '' : ' is invalid';
         break;
       case 'number':
-        phoneNumberValid = value.length >= 10;
-        fieldValidationErrors.number = phoneNumberValid ? '': ' is too short';
+        phoneNumberValid = value.length >= 10 && value.match(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/i);
+        fieldValidationErrors.number = phoneNumberValid ? '': ' is invalid';
         break;
       case 'address':
         addressValid = value.length >= 4;
@@ -226,469 +228,654 @@ class Contact extends Component {
       <div id="contactComponent">
         <Logo />
         <Nav />
-        <form
-          method="POST"
-          action="send"
-          id="contactForm"
-          className="wow bounceInLeft formContainerStyle"
-          onSubmit={this.onSubmit}
+        <div
+         id="formContainer"
         >
-          {/* <div
-            id="quesWorkTog"
+          <form
+            method="POST"
+            action="send"
+            id="contactForm"
+            className="formContainerStyle"
+            onSubmit={this.onSubmit}
           >
-            Have any questions?
-            <div
-              className="workStyle"
+            {/* <div
+              id="quesWorkTog"
             >
-              Fill out the form below and
-            </div>
-            <div
-              className="workStyle"
-            >
-              lets work together!
-            </div>
-          </div> */}
-          <FormErrors
-            formErrors={formErrors}
-            className="formErrorContainer"
-          />
-
-          {/* Name */}
-          <div className={`
-              form-group ${this.errorClass(formErrors.name)}
-            `}
-          >
-            <label>
-              Name
-              <input
-                className="inputStyle"
-                type="text"
-                id="name"
-                name="name"
-                value={name}
-                onChange={this.onChange}
-              />
-            </label>
-          </div>
-
-          {/* Email */}
-          <div
-            className={`
-              form-group ${this.errorClass(formErrors.email)}
-            `}
-          >
-            <label>
-              Email
-              <input
-                className="inputStyle"
-                type="email"
-                id="email"
-                name="email"
-                value={email}
-                onChange={this.onChange}
-              />
-            </label>
-          </div>
-
-          {/* Phone Number */}
-          <div
-            className={`
-                form-group ${this.errorClass(formErrors.number)}
-              `}
-          >
-            <label>
-              Phone Number
-              <input
-                className="inputStyle"
-                type="tel"
-                id="phoneNumber"
-                name="number"
-                value={number}
-                onChange={this.onChange}
-              />
-            </label>
-          </div>
-
-          {/* Type of event */}
-          <div
-            id="eventTypeContainer"
-          >
-            <label>
-              <input
-                className="radioEventType"
-                type="radio"
-                name="eventType"
-                value="wedding"
-                checked={this.state.selectedOption === 'wedding'}
-                onChange={this.radioButtonChange}
-              />
-              Wedding
-            </label>
-
-            <label>
-              <input
-                className="radioEventType"
-                type="text"
-                name="weddingNames"
-                value="bridesName"
-                onChange={this.hiddenEventSections}
-              />
-              Bride's Name
-            </label>
-
-            <label>
-              <input
-                className="radioEventType"
-                type="radio"
-                name="eventType"
-                value="barBatMitzvah"
-                checked={this.state.selectedOption === 'barBatMitzvah'}
-                onChange={this.radioButtonChange}
-              />
-              Bar/Bat Mitzvah
-            </label>
-
-            <label>
-              <input
-                className="radioEventType"
-                type="radio"
-                name="eventType"
-                value="corporate"
-                checked={this.state.selectedOption === 'corporate'}
-                onChange={this.radioButtonChange}
-              />
-              Corporate
-            </label>
-
-            <label>
-              <input
-                className="radioEventType"
-                type="radio"
-                name="eventType"
-                value="other"
-                checked={this.state.selectedOption === 'other'}
-                onChange={this.radioButtonChange}
-              />
-              Other
-            </label>
-          </div>
-
-          {/* Service */}
-          <div
-            id="serviceContainer"
-          >
-            <label>
-              <input
-                className="checkBoxServiceType"
-                type="checkbox"
-                name="serviceType"
-                value="band"
-              />
-              Band
-            </label>
-
-            <label>
-              <input
-                className="checkBoxServiceType"
-                type="checkbox"
-                name="serviceType"
-                value="dj"
-              />
-              DJ
-            </label>
-
-            <label>
-              <input
-                className="checkBoxServiceType"
-                type="checkbox"
-                name="serviceType"
-                value="ceremony"
-              />
-              Ceremony
-            </label>
-
-            <label>
-              <input
-                className="checkBoxServiceType"
-                type="checkbox"
-                name="serviceType"
-                value="acapella"
-              />
-              Acapella
-            </label>
-
-            <label>
-              <input
-                className="checkBoxServiceType"
-                type="checkbox"
-                name="serviceType"
-                value="other"
-              />
-              Other
-            </label>
-          </div>
-
-          {/* Address */}
-          <div
-            id="addressContainer"
-          >
-            <label>
-                Address
-              <input
-                className="inputStyle"
-                type="text"
-                id="address"
-                name="address"
-                value={address}
-                onChange={this.onChange}
-              />
-            </label>
-
-            <label>
-                City
-              <input
-                className="inputStyle"
-                type="text"
-                id="city"
-                name="city"
-                // value={city}
-                onChange={this.onChange}
-              />
-            </label>
-
-            <label>
-              <select 
-                name="state"
-                // className="inputStyle"ij
-                id="state"
-              >
-                <option value="" defaultValue="selected">Select a State</option>
-                <option value="AL">Alabama</option>
-                <option value="AK">Alaska</option>
-                <option value="AZ">Arizona</option>
-                <option value="AR">Arkansas</option>
-                <option value="CA">California</option>
-                <option value="CO">Colorado</option>
-                <option value="CT">Connecticut</option>
-                <option value="DE">Delaware</option>
-                <option value="DC">District Of Columbia</option>
-                <option value="FL">Florida</option>
-                <option value="GA">Georgia</option>
-                <option value="HI">Hawaii</option>
-                <option value="ID">Idaho</option>
-                <option value="IL">Illinois</option>
-                <option value="IN">Indiana</option>
-                <option value="IA">Iowa</option>
-                <option value="KS">Kansas</option>
-                <option value="KY">Kentucky</option>
-                <option value="LA">Louisiana</option>
-                <option value="ME">Maine</option>
-                <option value="MD">Maryland</option>
-                <option value="MA">Massachusetts</option>
-                <option value="MI">Michigan</option>
-                <option value="MN">Minnesota</option>
-                <option value="MS">Mississippi</option>
-                <option value="MO">Missouri</option>
-                <option value="MT">Montana</option>
-                <option value="NE">Nebraska</option>
-                <option value="NV">Nevada</option>
-                <option value="NH">New Hampshire</option>
-                <option value="NJ">New Jersey</option>
-                <option value="NM">New Mexico</option>
-                <option value="NY">New York</option>
-                <option value="NC">North Carolina</option>
-                <option value="ND">North Dakota</option>
-                <option value="OH">Ohio</option>
-                <option value="OK">Oklahoma</option>
-                <option value="OR">Oregon</option>
-                <option value="PA">Pennsylvania</option>
-                <option value="RI">Rhode Island</option>
-                <option value="SC">South Carolina</option>
-                <option value="SD">South Dakota</option>
-                <option value="TN">Tennessee</option>
-                <option value="TX">Texas</option>
-                <option value="UT">Utah</option>
-                <option value="VT">Vermont</option>
-                <option value="VA">Virginia</option>
-                <option value="WA">Washington</option>
-                <option value="WV">West Virginia</option>
-                <option value="WI">Wisconsin</option>
-                <option value="WY">Wyoming</option>
-              </select>
-            </label>
-
-            <label>
-                Zip Code
-              <input
-                className="inputStyle"
-                type="text"
-                id="zip"
-                name="zip"
-                // value={zip}
-                onChange={this.onChange}
-              />
-            </label>
-          </div>
-
-          {/* Date of Event */}
-          <div
-            id="dateOfEvent"
-          >
-            <label>
-                Month
-              <select
-                id="month"
-                name="month"
-              >
-                <option>January</option>
-                <option>February</option>
-                <option>March</option>
-                <option>April</option>
-                <option>May</option>
-                <option>June</option>
-                <option>July</option>
-                <option>August</option>
-                <option>September</option>
-                <option>October</option>
-                <option>November</option>
-                <option>December</option>
-              </select>
-            </label>
-
-            <label>
-              Day
-              <select
-                id="day"
-                name="day"
-              >
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-                <option>11</option>
-                <option>12</option>
-                <option>13</option>
-                <option>14</option>
-                <option>15</option>
-                <option>16</option>
-                <option>17</option>
-                <option>18</option>
-                <option>19</option>
-                <option>20</option>
-                <option>21</option>
-                <option>22</option>
-                <option>23</option>
-                <option>24</option>
-                <option>25</option>
-                <option>26</option>
-                <option>27</option>
-                <option>28</option>
-                <option>29</option>
-                <option>30</option>
-                <option>31</option>
-              </select>
-            </label>
-
-            <label
-              className=""
-            >
-              Year
-              <select
-                id="formYears"
-              />
-            </label>
-          </div>
-
-          {/* Time */}
-          <div>
-            <label>
-              Start Time
-              <input
-                className="inputStyle"
-                type="text"
-                id="startTime"
-                name="startTime"
-                // value={startTime}
-                onChange={this.onChange}
-              />
-              </label>
-          </div>
-
-          {/* Number of Guests */}
-          <div>
-            <label>
-              Number of Guests
-              <input
-                className="inputStyle"
-                type="text"
-                id="numberOfGuests"
-                name="numberOfGuests"
-                // value={numberOfGuests}
-                onChange={this.onChange}
-              />
-              </label>
-          </div>
-
-          {/* Venue */}
-          <div>
-            <label>
-              Venue
-              <input
-                className="inputStyle"
-                type="text"
-                id="venue"
-                name="venue"
-                // value={venue}
-                onChange={this.onChange}
-              />
-              </label>
-          </div>
-
-          {/* Additional Info */}
-          <div className=
-            {`
-              form-group ${this.errorClass(formErrors.message)}
-            `}
-          >
-            <div
-              className="labelContainer"
-            >
+              Have any questions?
               <div
-                className="labelStyle"
-                htmlFor="message"
+                className="workStyle"
               >
-                Additional Information
+                Fill out the form below and
+              </div>
+              <div
+                className="workStyle"
+              >
+                lets work together!
+              </div>
+            </div> */}
+            <FormErrors
+              formErrors={formErrors}
+              className="formErrorContainer"
+            />
+
+            {/* Name */}
+            <div
+              className="textFieldAlign"
+            >
+              <div className={`
+                  form-group ${this.errorClass(formErrors.name)}
+                `}
+              >
+                <label
+                  className="labelAlignContainer"
+                >
+                  <div
+                    className="labelAlign"
+                  >
+                    Name:
+                  </div>
+                  <input
+                    className="inputStyle"
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={name}
+                    onChange={this.onChange}
+                  />
+                </label>
+              </div>
+
+              {/* Email */}
+              <div
+                className={`
+                  form-group ${this.errorClass(formErrors.email)}
+                `}
+              >
+                <label
+                  className="labelAlignContainer"
+                >
+                  <div
+                    className="labelAlign"
+                  >
+                    Email:
+                  </div>
+                  <input
+                    className="inputStyle"
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={email}
+                    onChange={this.onChange}
+                  />
+                </label>
+              </div>
+
+              {/* Phone Number */}
+              <div
+                className={`
+                    form-group ${this.errorClass(formErrors.number)}
+                  `}
+              >
+                <label
+                  className="labelAlignContainer"
+                >
+                  <div
+                    className="labelAlign"
+                  >
+                    Phone Number:
+                  </div>
+                  <input
+                    className="inputStyle"
+                    type="tel"
+                    id="phoneNumber"
+                    name="number"
+                    value={number}
+                    onChange={this.onChange}
+                  />
+                </label>
               </div>
             </div>
-            <textarea
-              className="inputStyle textareaStyle"
-              rows="12"
-              cols="72"
-              id="message"
-              name="message"
-              value={message}
-              onChange={this.onChange}
-            />
-          </div>
-          <button
-            className="buttonStyle"
-            type="submit"
-            disabled={!formValid}
-          >
-            Submit
-          </button>
-          <footer
-            className="footerStyle"
-          >
-            Copyright © 2018 Haviv Entertainment - All Rights Reserved.
-          </footer>
-        </form>
+
+            {/* Type of event */}
+            <div
+              id="eventTypeContainer"
+            >
+              <label
+                className="radioEventContainer"
+              >
+                <input
+                  className="clickInputs"
+                  type="radio"
+                  name="eventType"
+                  value="wedding"
+                  checked={this.state.selectedOption === 'wedding'}
+                  onChange={this.radioButtonChange}
+                />
+                Wedding
+              </label>
+
+              <label
+                className="radioEventContainer"
+              >
+                <input
+                  className="clickInputs"
+                  type="radio"
+                  name="eventType"
+                  value="barBatMitzvah"
+                  checked={this.state.selectedOption === 'barBatMitzvah'}
+                  onChange={this.radioButtonChange}
+                />
+                Bar/Bat Mitzvah
+              </label>
+
+              <label
+                className="radioEventContainer"
+              >
+                <input
+                  className="clickInputs"
+                  type="radio"
+                  name="eventType"
+                  value="corporate"
+                  checked={this.state.selectedOption === 'corporate'}
+                  onChange={this.radioButtonChange}
+                />
+                Corporate
+              </label>
+
+              <label
+                className="radioEventContainer"
+              >
+                <input
+                  className="clickInputs"
+                  type="radio"
+                  name="eventType"
+                  value="other"
+                  checked={this.state.selectedOption === 'other'}
+                  onChange={this.radioButtonChange}
+                />
+                Other
+              </label>
+            </div>
+            <div
+              className={this.state.radioButtonSections.wedding ? 'weddingFieldShow' : 'weddingFieldHide'}
+            >
+              <label
+                  className="labelAlignContainer"
+              >
+                <div
+                  className="labelAlign"
+                >
+                  Bride's Name:
+                </div>
+                <input
+                  className=""
+                  type="text"
+                  name="weddingNames"
+                  // value="bridesName"
+                  onChange={this.hiddenEventSections}
+                />
+              </label>
+
+              <label
+                  className="labelAlignContainer"
+                >
+                  <div
+                    className="labelAlign"
+                  >
+                    Groom's Name:
+                  </div>
+                <input
+                  className="radioEventType"
+                  type="text"
+                  name="weddingNames"
+                  // value="bridesName"
+                  onChange={this.hiddenEventSections}
+                />
+              </label>
+            </div>
+            <div
+              className={this.state.radioButtonSections.barBatMitzvah ? 'mizvahFieldShow' : 'mitzvahFieldHide'}
+            >
+              <label
+                  className="labelAlignContainer"
+              >
+                <div
+                  className="labelAlign"
+                >
+                  Bar/Bat Mitzvah's Name:
+                </div>
+                <input
+                  className="radioEventType"
+                  type="text"
+                  name="barBatMitzvahName"
+                  // value="bridesName"
+                  onChange={this.hiddenEventSections}
+                />
+              </label>
+            </div>
+            <div
+              className={this.state.radioButtonSections.corporate ? 'corporateFieldShow' : 'corporateFieldHide'}
+            >
+              <label
+                  className="labelAlignContainer"
+              >
+                <div
+                  className="labelAlign"
+                >
+                  Company/Organization:
+                </div>
+                <input
+                  className="radioEventType"
+                  type="text"
+                  name="companyOrganizationName"
+                  // value="bridesName"
+                  onChange={this.hiddenEventSections}
+                />
+              </label>
+            </div>
+
+            <div
+              className={this.state.radioButtonSections.other ? 'otherFieldShow' : 'otherFieldHide'}
+            >
+              <label
+                  className="labelAlignContainer"
+              >
+                <div
+                  className="labelAlign"
+                >
+                  Event/Occasion:
+                </div>
+                <input
+                  className="radioEventType"
+                  type="text"
+                  name="otherName"
+                  // value="bridesName"
+                  onChange={this.hiddenEventSections}
+                />
+              </label>
+            </div>
+
+            {/* Service */}
+            <div
+              id="serviceContainer"
+            >
+              <label
+                className="checkBoxServiceType"
+              >
+                <input
+                  className="clickInputs"
+                  type="checkbox"
+                  name="serviceType"
+                  value="band"
+                />
+                Band
+              </label>
+
+              <label
+                className="checkBoxServiceType"
+              >
+                <input
+                  className="clickInputs"
+                  type="checkbox"
+                  name="serviceType"
+                  value="dj"
+                />
+                DJ
+              </label>
+
+              <label
+                className="checkBoxServiceType"
+              >
+                <input
+                  className="clickInputs"
+                  type="checkbox"
+                  name="serviceType"
+                  value="ceremony"
+                />
+                Ceremony
+              </label>
+
+              <label
+                className="checkBoxServiceType"
+              >
+                <input
+                  className="clickInputs"
+                  type="checkbox"
+                  name="serviceType"
+                  value="acapella"
+                />
+                Acapella
+              </label>
+
+              <label
+                className="checkBoxServiceType"
+              >
+                <input
+                  className="clickInputs"
+                  type="checkbox"
+                  name="serviceType"
+                  value="other"
+                />
+                Other
+              </label>
+            </div>
+
+            {/* Address */}
+            <div
+              id="addressContainer"
+            >
+              <div
+                className="addressRow"
+              >
+                <label
+                  className="labelAlignContainer"
+                >
+                  <div
+                    className="labelAlign"
+                  >
+                    Address:
+                  </div>
+                  <input
+                    className="inputStyle"
+                    type="text"
+                    id="address"
+                    name="address"
+                    value={address}
+                    onChange={this.onChange}
+                  />
+                </label>
+
+                <label
+                  className="labelAlignContainer"
+                >
+                  <div
+                    className="labelAlign"
+                  >
+                    City:
+                  </div>
+                  <input
+                    className="inputStyle"
+                    type="text"
+                    id="city"
+                    name="city"
+                    // value={city}
+                    onChange={this.onChange}
+                  />
+                </label>
+              </div>
+
+              <div
+                className="addressRow"
+              >
+                <label
+                  id="alignState"
+                >
+                  <select 
+                    name="state"
+                    // className="inputStyle"ij
+                    id="state"
+                  >
+                    <option value="" defaultValue="selected">Select a State</option>
+                    <option value="AL">Alabama</option>
+                    <option value="AK">Alaska</option>
+                    <option value="AZ">Arizona</option>
+                    <option value="AR">Arkansas</option>
+                    <option value="CA">California</option>
+                    <option value="CO">Colorado</option>
+                    <option value="CT">Connecticut</option>
+                    <option value="DE">Delaware</option>
+                    <option value="DC">District Of Columbia</option>
+                    <option value="FL">Florida</option>
+                    <option value="GA">Georgia</option>
+                    <option value="HI">Hawaii</option>
+                    <option value="ID">Idaho</option>
+                    <option value="IL">Illinois</option>
+                    <option value="IN">Indiana</option>
+                    <option value="IA">Iowa</option>
+                    <option value="KS">Kansas</option>
+                    <option value="KY">Kentucky</option>
+                    <option value="LA">Louisiana</option>
+                    <option value="ME">Maine</option>
+                    <option value="MD">Maryland</option>
+                    <option value="MA">Massachusetts</option>
+                    <option value="MI">Michigan</option>
+                    <option value="MN">Minnesota</option>
+                    <option value="MS">Mississippi</option>
+                    <option value="MO">Missouri</option>
+                    <option value="MT">Montana</option>
+                    <option value="NE">Nebraska</option>
+                    <option value="NV">Nevada</option>
+                    <option value="NH">New Hampshire</option>
+                    <option value="NJ">New Jersey</option>
+                    <option value="NM">New Mexico</option>
+                    <option value="NY">New York</option>
+                    <option value="NC">North Carolina</option>
+                    <option value="ND">North Dakota</option>
+                    <option value="OH">Ohio</option>
+                    <option value="OK">Oklahoma</option>
+                    <option value="OR">Oregon</option>
+                    <option value="PA">Pennsylvania</option>
+                    <option value="RI">Rhode Island</option>
+                    <option value="SC">South Carolina</option>
+                    <option value="SD">South Dakota</option>
+                    <option value="TN">Tennessee</option>
+                    <option value="TX">Texas</option>
+                    <option value="UT">Utah</option>
+                    <option value="VT">Vermont</option>
+                    <option value="VA">Virginia</option>
+                    <option value="WA">Washington</option>
+                    <option value="WV">West Virginia</option>
+                    <option value="WI">Wisconsin</option>
+                    <option value="WY">Wyoming</option>
+                  </select>
+                </label>
+
+                <label
+                  className="labelAlignContainer"
+                >
+                  <div
+                    className="labelAlign"
+                  >
+                    Zip Code:
+                  </div>
+                  <input
+                    className="inputStyle"
+                    type="text"
+                    id="zip"
+                    name="zip"
+                    // value={zip}
+                    onChange={this.onChange}
+                  />
+                </label>
+              </div>
+            </div>
+
+            {/* Date of Event */}
+            <div
+              id="dateOfEvent"
+            >
+              <label
+                className="dateStyle"
+              >
+                <select
+                  id="month"
+                  name="month"
+                  defaultValue="Month"
+                >
+                  <option>Month</option>
+                  <option>January</option>
+                  <option>February</option>
+                  <option>March</option>
+                  <option>April</option>
+                  <option>May</option>
+                  <option>June</option>
+                  <option>July</option>
+                  <option>August</option>
+                  <option>September</option>
+                  <option>October</option>
+                  <option>November</option>
+                  <option>December</option>
+                </select>
+              </label>
+
+              <label
+                className="dateStyle"
+              >
+                <select
+                  id="day"
+                  name="day"
+                  defaultValue="Day"
+                >
+                  <option>Day</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10</option>
+                  <option>11</option>
+                  <option>12</option>
+                  <option>13</option>
+                  <option>14</option>
+                  <option>15</option>
+                  <option>16</option>
+                  <option>17</option>
+                  <option>18</option>
+                  <option>19</option>
+                  <option>20</option>
+                  <option>21</option>
+                  <option>22</option>
+                  <option>23</option>
+                  <option>24</option>
+                  <option>25</option>
+                  <option>26</option>
+                  <option>27</option>
+                  <option>28</option>
+                  <option>29</option>
+                  <option>30</option>
+                  <option>31</option>
+                </select>
+              </label>
+
+              <label
+                className="dateStyle"
+              >
+                <select
+                  id="formYears"
+                  defaultValue="Year"
+                >
+                  <option>Year</option>
+                </select>
+              </label>
+            </div>
+
+            {/* Time */}
+            <div>
+              <label
+                  className="labelAlignContainer"
+                >
+                <div
+                  className="labelAlign"
+                >
+                  Start Time:
+                </div>
+                <input
+                  className="inputStyle"
+                  type="text"
+                  id="startTime"
+                  name="startTime"
+                  // value={startTime}
+                  onChange={this.onChange}
+                />
+              </label>
+            </div>
+
+            {/* Number of Guests */}
+            <div>
+              <label
+                  className="labelAlignContainer"
+                >
+                <div
+                  className="labelAlign"
+                >
+                  Number of Guests:
+                </div>
+                <input
+                  className="inputStyle"
+                  type="text"
+                  id="numberOfGuests"
+                  name="numberOfGuests"
+                  // value={numberOfGuests}
+                  onChange={this.onChange}
+                />
+              </label>
+            </div>
+
+            {/* Venue */}
+            <div>
+              <label
+                  className="labelAlignContainer"
+                >
+                <div
+                  className="labelAlign"
+                >
+                  Venue:
+                </div>
+                <input
+                  className="inputStyle"
+                  type="text"
+                  id="venue"
+                  name="venue"
+                  // value={venue}
+                  onChange={this.onChange}
+                />
+              </label>
+            </div>
+
+            {/* Additional Info */}
+            <div className=
+              {`
+                form-group ${this.errorClass(formErrors.message)}
+              `}
+            >
+              <div
+                className="labelContainer"
+              >
+                <div
+                  className="labelStyle"
+                  htmlFor="message"
+                >
+                  Additional Information
+                </div>
+              </div>
+              <textarea
+                className="inputStyle textareaStyle"
+                rows="12"
+                cols="72"
+                id="message"
+                name="message"
+                value={message}
+                onChange={this.onChange}
+              />
+            </div>
+            <button
+              className="buttonStyle"
+              type="submit"
+              disabled={!formValid}
+            >
+              Submit
+            </button>
+            <footer
+              className="footerStyle"
+            >
+              Copyright © 2018 Haviv Entertainment - All Rights Reserved.
+            </footer>
+          </form>
+        </div>
       </div>
     );
   }

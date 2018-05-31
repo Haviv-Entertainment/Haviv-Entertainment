@@ -1,18 +1,124 @@
-#contactForm {
+#contactComponent {
     text-align: center;
+}
+
+#formContainer {
+    display: inline-block;
+    color: #225994;
+    font-size: 0.9em;
+}
+
+#contactForm {
+    margin: auto;
+    width: 80%;
     padding: 0.8em 0;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
 }
 
 .form-group {
     margin-bottom: 0.2em;
 }
 
+.textFieldAlign {
+    margin: auto;
+    width: 40%;
+}
+
+#eventTypeContainer,
+#serviceContainer {
+    margin: 0.5em 0;
+}
+
+.radioEventContainer {
+    margin: 0 0.7em;
+}
+
+.clickInputs {
+    margin-right: 0.15em;
+}
+
+.checkBoxServiceType {
+    margin: 0 0.5em
+}
+
 #addressContainer {
+    margin: 1em 0;
+    text-align: center;
     display: flex;
-    flex-flow: column wrap;
-    justify-content: center;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+}
+
+.addressRow {
+    margin-bottom: 1em;
+}
+
+#alignState {
+    align-self: flex-end;
+    padding: 0.3em 0;
 }
 
 .inputStyle {
     margin-left: 0.5em;
+    display: block;
+    align-items: center;
+    border-width: 0.1em;
+    /* background-color: #cbcbcb; */
+}
+
+.labelAlignContainer {
+    text-align: left;
+}
+
+.labelAlign {
+    padding-left: 0.5em;
+    margin-bottom: 0.3em;
+}
+
+.dateStyle {
+    margin: 0 0.5em 1.3em 0.5em;
+}
+
+/* Type of Events Field reveals */
+
+.weddingFieldHide {
+    visibility: hidden;
+    display: none;
+}
+
+.mitzvahFieldHide {
+    visibility: hidden;
+    display: none;
+}
+
+.corporateFieldHide {
+    visibility: hidden;
+    display: none;
+}
+
+.otherFieldHide {
+    visibility: hidden;
+    display: none;
+}
+
+.weddingFieldShow {
+    visibility: visible;
+    display: block;
+}
+
+.mitzvahFieldShow {
+    visibility: visible;
+    display: block;
+}
+
+.corporateFieldShow {
+    visibility: visible;
+    display: block;
+}
+
+.otherFieldShow {
+    visibility: visible;
+    display: block;
 }
